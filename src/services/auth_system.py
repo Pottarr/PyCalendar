@@ -16,7 +16,8 @@ def register(username, password, confirm_password) :
             return (False, "Error: Username alreadhy exists.")
         else :
             if password == confirm_password :
-                initial_user_data = {"username": username, "password": password, "activity_log": []}
+                initial_user_data = {"username": username, "password": password}
+                #Include later: "activity_log": [], "daily_activity": [], "weekly_activity": [], "monthly_activity": [], "yearly_activity": [], "event": []
                 creating_user = user.User(initial_user_data)
                 # creating_user.debug_print()
                 pkl.write_file(file_path, creating_user)
@@ -33,7 +34,7 @@ def login(username, password) :
     except FileNotFoundError :
         # print("Error: Username not found.")
         return (False, "Error: Username not found.")
-    data.debug_print()
+    # data.debug_print()
     correct_password = data.get_info().get("password")
     if correct_password == password :
         login_user_data = {"username": data.get_info().get("username"), "password": data.get_info().get("password"), "activity_logd:": data.get_info().get("activity_log")}
