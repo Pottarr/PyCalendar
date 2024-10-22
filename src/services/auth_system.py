@@ -5,7 +5,15 @@ import services.user as user
 
 
 def register(username, password, confirm_password) :
-    if password == "" :
+    """This function takes 3 arguments (username, password, confirm_password).
+    First, it checks whether the username is blank or not, if blank, it throws 
+    back error, else it proceed to the next step. Then, it checks whether 
+    the username is already taken or not, if taken, it thorws back error, 
+    else, it checks whether the password and the confirm_password match or not, 
+    if match, it creates a new user with the username and password from 
+    the arguments, else it throws back error."""
+    
+    if username == "" :
         return (False, "Error: Username is invalid.")
     else :
         # file_path = Path("db/" + username + ".pickle")
@@ -26,6 +34,8 @@ def register(username, password, confirm_password) :
                 return (False, "Error: Please check your password.")
         
 def login(username, password) :
+    """This function """
+    
     file_name = username + ".pickle"
     relative_path = "db/"
     file_path = os.path.join(relative_path, file_name)

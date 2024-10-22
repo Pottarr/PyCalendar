@@ -2,3 +2,5 @@
 /db/*
 /venv/
 activity.py
+/icons/
+setting_page.py
