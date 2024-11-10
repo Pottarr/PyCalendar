@@ -1,11 +1,12 @@
 from customtkinter import *
 import services.auth_system as auth
+from pages.page import Page
 
 alphabet_blue = "#abcdef"
 trueman_green = "#aae5a4"
 
         
-class LoginPage :
+class LoginPage(Page) :
     """This class generates the Login Page"""
     def __init__(self, root) :
         
@@ -68,23 +69,14 @@ class LoginPage :
         username_value = self.username_entry.get()
         password_value = self.password_entry.get()
         
-        current_user = auth.login(username_value, password_value)
-        can_login = list(current_user)[0]
-        current_user_data = list(current_user)[1]
+        can_login, login_result = auth.login(username_value, password_value)
         
         if can_login == True :
             
             import pages.home_page as home_page
             self.login_error = ""
-            self.page_frame.destroy()
-            home_page.HomePage(self.root)
-        elif can_login == False :
-            self.login_error = list(current_user)[1]
-            self.error_message.configure(text = self.login_error)
+            self.go_to_home(login_result)
             
-    def go_to_register(self) :
-        """This method executes when the go_to_register_button is pressed. It destroys 
-        the LoginPage and generates the RegisterPage."""
-        import pages.register_page as register_page
-        self.page_frame.destroy()
-        register_page.RegisterPage(self.root)
+        elif can_login == False :
+            self.login_error = login_result
+            self.error_message.configure(text = self.login_error)

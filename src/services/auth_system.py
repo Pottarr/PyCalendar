@@ -36,21 +36,29 @@ def register(username, password, confirm_password) :
 def login(username, password) :
     """This function """
     
-    file_name = username + ".pickle"
+    file_name = f"{username}.pickle"
     relative_path = "db/"
     file_path = os.path.join(relative_path, file_name)
     try :
-        data = pkl.read_file(file_path)
+        data, file_obj = pkl.read_file(file_path)
     except FileNotFoundError :
         # print("Error: Username not found.")
         return (False, "Error: Username not found.")
     # data.debug_print()
     correct_password = data.get_info().get("password")
     if correct_password == password :
-        login_user_data = {"username": data.get_info().get("username"), "password": data.get_info().get("password"), "activity_logd:": data.get_info().get("activity_log")}
+        login_user_data = {"username": data.get_info().get("username"), "password": data.get_info().get("password"), "activity_log:": data.get_info().get("activity_log")}
         current_user = user.User(login_user_data)
         # current_user = user.User(data)
         # current_user.debug_print()
-        return (True, current_user)
+        return (True, (current_user, file_obj))
     elif correct_password != password :
         return (False, "Error: Password is incorrect")
+    
+def logout(current_user, file_obj) :
+    """This function """
+    try :
+        pkl.close_file(file_obj)
+    except Exception as e :
+        print(f"Error: {e}")
+    

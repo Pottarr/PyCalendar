@@ -11,4 +11,8 @@ def read_file(file_path) :
         data = pickle.load(f)
         # print(data)
         # print(type(data))
-        return data
+        return (data, f)
+    
+def close_file(file_obj) :
+    file_obj.close()
+    print("File Closed...")
