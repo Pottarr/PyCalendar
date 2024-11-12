@@ -4,7 +4,7 @@ from PIL import Image
 import tkinter as tk
 from pages.page import Page
 import services.auth_system as auth
-from datetime import datetime
+import time
 # from tkcalendar import *
 # import widgets.calendar as calendar
 
@@ -20,7 +20,6 @@ class HomePage(Page) :
         self.root = root
         self.current_user = login_result[0]
         self.file_obj = login_result[1]
-        self.current_time = datetime.now().strftime("%H:%M:%S")
         
         self.settings_icon = CTkImage(light_image = Image.open("icons/settings.png"))
         self.logout_icon = CTkImage(light_image = Image.open("icons/logout.png"))
@@ -63,14 +62,19 @@ class HomePage(Page) :
         # self.calendar.grid(row = 0, column = 0, sticky = "nsew")
         self.calendar.pack(fill = tk.BOTH, expand = True)
         
-        self.current_time_label = CTkLabel(self.padding_frame, text = self.current_time, font = ("Arial", 30))
+        self.current_time_label = CTkLabel(self.padding_frame, text = time.strftime("%H:%M:%S"), font = ("Arial", 30))
         self.current_time_label.grid(row = 7, column = 0,columnspan = 5, sticky = "nsew")
-        
+        self.current_time_label.after(1000, self.update_current_time)
         
         self.activity_log_frame = CTkFrame(self.padding_frame, bg_color = alphabet_blue)
         # self.activity_log_frame.grid(row = 0, column = 5, rowspan = 7, columnspan = 6, sticky = "nsew")
         self.activity_log_frame.grid(row = 1, column = 10, rowspan = 16, columnspan = 7, sticky = "nsew")
         
+    def update_current_time(self) :
+        current_time = time.strftime("%H:%M:%S")
+        self.current_time_label.configure(text = current_time)
+        self.current_time_label.after(1000, self.update_current_time)
+            
         
     def logout(self, current_user) :
         auth.logout(self.current_user, self.file_obj)

@@ -1,18 +1,12 @@
 import os
 # from pathlib import Path
+from typing import Tuple, Union, BinaryIO
 import services.pickle_system as pkl
 import services.user as user
 
 
-def register(username, password, confirm_password) :
-    """This function takes 3 arguments (username, password, confirm_password).
-    First, it checks whether the username is blank or not, if blank, it throws 
-    back error, else it proceed to the next step. Then, it checks whether 
-    the username is already taken or not, if taken, it thorws back error, 
-    else, it checks whether the password and the confirm_password match or not, 
-    if match, it creates a new user with the username and password from 
-    the arguments, else it throws back error."""
-    
+def register(username:str , password: str, confirm_password: str) -> Tuple[bool, Union[user.User, str]]:
+    # """This function """
     if username == "" :
         return (False, "Error: Username is invalid.")
     else :
@@ -33,8 +27,8 @@ def register(username, password, confirm_password) :
             else :
                 return (False, "Error: Please check your password.")
         
-def login(username, password) :
-    """This function """
+def login(username: str, password: str) -> Tuple[bool, Union[Tuple[user.User, BinaryIO]]] :
+    # """This function """
     
     file_name = f"{username}.pickle"
     relative_path = "db/"
@@ -55,7 +49,7 @@ def login(username, password) :
     elif correct_password != password :
         return (False, "Error: Password is incorrect")
     
-def logout(current_user, file_obj) :
+def logout(current_user: user.User, file_obj: BinaryIO) :
     """This function """
     try :
         pkl.close_file(file_obj)
