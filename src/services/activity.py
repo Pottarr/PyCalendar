@@ -2,6 +2,7 @@ from abc import ABC, abstractmethod
 from datetime import date
 from typing import Optional
 
+# We have Activity class to make it easier to edit the activity_dict
 class Activity(ABC) :
     def __init__(self, name: str, description: str, date_of_activity: date) :
         self.name = name
