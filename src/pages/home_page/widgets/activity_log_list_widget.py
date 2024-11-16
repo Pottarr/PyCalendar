@@ -1,8 +1,10 @@
 from customtkinter import *
 from PIL import Image
+from datetime import *
 
 alphabet_blue = "#abcdef"
 python_blue_lighter = "#7bafe3"
+very_light_gray = "#d3d3d3"
 
 
 class ActivityLogListWidget(CTkFrame) :
@@ -11,6 +13,7 @@ class ActivityLogListWidget(CTkFrame) :
         self.parent_element = parent_element
         self.current_user = current_user
         self.current_date = current_date
+        print(type(self.current_date))
         self.grid_columnconfigure(0, weight = 1)
         self.grid_rowconfigure(0, weight = 9)
         self.grid_rowconfigure(1, weight = 1)
@@ -24,7 +27,7 @@ class ActivityLogListWidget(CTkFrame) :
         
         
         
-        self.activity_log_scrollable_frame = CTkScrollableFrame(self, fg_color = alphabet_blue)
+        self.activity_log_scrollable_frame = CTkScrollableFrame(self, fg_color = very_light_gray)
         self.activity_log_scrollable_frame.grid(row = 0, column = 0, sticky = "nsew")
         
         if len(current_user["activity_log"]) == 0 :
@@ -41,7 +44,7 @@ class ActivityLogListWidget(CTkFrame) :
         self.previous_day_button = CTkButton(self.footer_button_frame, fg_color = python_blue_lighter,
                                              hover_color = python_blue_lighter, text = "",
                                              image = self.prev_icon, width = 30, height = 30,
-                                             command = lambda: print("Go to previous day"))
+                                             command = self.previous_day)
         self.previous_day_button.grid(row = 0, column = 0, sticky = "nse")
         
         self.add_activity_button = CTkButton(self.footer_button_frame, fg_color = python_blue_lighter,
@@ -53,10 +56,16 @@ class ActivityLogListWidget(CTkFrame) :
         self.next_day_button = CTkButton(self.footer_button_frame, fg_color = python_blue_lighter,
                                              hover_color = python_blue_lighter, text = "",
                                              image = self.next_icon, width = 30, height = 30,
-                                             command = lambda: print("Go to previous day"))
+                                             command = self.next_day)
         self.next_day_button.grid(row = 0, column = 2, sticky = "nsw")
+        
+    def previous_day(self) :
+        self.parent_element.backward_current_date()
         
     def add_activity(self) :
         print("Add Activity")
         self.destroy()
         self.parent_element.display_add_activity()
+
+    def next_day(self) :
+        self.parent_element.forward_current_date()

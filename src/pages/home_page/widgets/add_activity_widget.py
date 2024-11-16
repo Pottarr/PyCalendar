@@ -4,6 +4,7 @@ from PIL import Image
 
 alphabet_blue = "#abcdef"
 python_blue_lighter = "#7bafe3"
+very_light_gray = "#d3d3d3"
 
 
 class AddActivityWidget(CTkFrame) :
@@ -19,7 +20,7 @@ class AddActivityWidget(CTkFrame) :
         
         
         
-        self.add_activity_frame = CTkFrame(self, fg_color = alphabet_blue)
+        self.add_activity_frame = CTkFrame(self, fg_color = very_light_gray)
         self.add_activity_frame.grid(row = 0, column = 0, sticky = "nsew")
         
         

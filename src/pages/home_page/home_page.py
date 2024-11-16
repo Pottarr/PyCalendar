@@ -1,6 +1,6 @@
 from customtkinter import *
 import tkcalendar as tkcal
-from datetime import datetime
+from datetime import *
 from PIL import Image
 import tkinter as tk
 from pages.page import Page
@@ -139,3 +139,19 @@ class HomePage(Page) :
     def logout(self, current_user) :
         auth.logout(self.current_user, self.file_obj)
         self.go_to_login()
+    
+    def backward_current_date(self) :
+        self.current_date_obj = datetime.strptime(self.current_date, "%d/%m/%Y").date()
+        self.current_date_obj -= timedelta(days = 1)
+        self.calendar.selection_set(self.current_date_obj)
+        self.current_date = self.current_date_obj.strftime("%d/%m/%Y")
+        self.activity_log_label.configure(text = self.current_date)
+        
+    def forward_current_date(self) :
+        self.current_date_obj = datetime.strptime(self.current_date, "%d/%m/%Y").date()
+        self.current_date_obj += timedelta(days = 1)
+        self.calendar.selection_set(self.current_date_obj)
+        self.current_date = self.current_date_obj.strftime("%d/%m/%Y")
+        self.activity_log_label.configure(text = self.current_date)
+        
+    
