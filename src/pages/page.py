@@ -18,7 +18,7 @@ class Page(ABC) :
     
     def go_to_home(self, login_result) :
         """This method destroys the current page and generates the HomePage."""
-        import pages.home_page as home_page
+        import pages.home_page.home_page as home_page
         self.page_frame.destroy()
         home_page.HomePage(self.root, login_result)
     
@@ -27,4 +27,3 @@ class Page(ABC) :
         import pages.settings_page as settings_page
         self.page_frame.destroy()
         settings_page.SettingsPage(self.root)
-    

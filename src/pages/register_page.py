@@ -23,7 +23,8 @@ class RegisterPage(Page) :
         self.register_frame.grid_rowconfigure(1, weight = 1)
         self.register_frame.grid(row = 2, column = 0)
 
-        self.register_label = CTkLabel(self.register_frame, text="Register", font = ("Arial", 20), bg_color = alphabet_blue)
+        self.register_label = CTkLabel(self.register_frame, text="Register", font = ("Arial", 20),
+                                       bg_color = alphabet_blue)
         self.register_label.grid(row = 0, column = 0, sticky = "s")
     
         self.entry_frame = CTkFrame(self.register_frame, fg_color = alphabet_blue, bg_color = alphabet_blue)
@@ -44,31 +45,27 @@ class RegisterPage(Page) :
         self.password_entry = CTkEntry(self.entry_frame, show = "*", bg_color = alphabet_blue)
         self.password_entry.grid(row = 1, column = 1)
         
-        self.confirm_password_label = CTkLabel(self.entry_frame, text = "Confirm Password: ", fg_color = alphabet_blue, bg_color = alphabet_blue)
+        self.confirm_password_label = CTkLabel(self.entry_frame, text = "Confirm Password: ",
+                                               fg_color = alphabet_blue, bg_color = alphabet_blue)
         self.confirm_password_label.grid(row = 2, column = 0)
         
         self.confirm_password_entry = CTkEntry(self.entry_frame, show = "*", bg_color = alphabet_blue)
         self.confirm_password_entry.grid(row = 2, column = 1)
         
-        self.register_button = CTkButton(self.entry_frame, text="Register", text_color = "black", fg_color = "white", bg_color = alphabet_blue, command=self.register)
+        self.register_button = CTkButton(self.entry_frame, text="Register", text_color = "black",
+                                         fg_color = "white", bg_color = alphabet_blue, command=self.register)
         self.register_button.grid(row = 4, column = 0, columnspan = 2)
         
         self.register_error = ""
-        self.error_message = CTkLabel(self.entry_frame, text = self.register_error, text_color = "red", fg_color = alphabet_blue, bg_color = alphabet_blue)
+        self.error_message = CTkLabel(self.entry_frame, text = self.register_error, text_color = "red",
+                                      fg_color = alphabet_blue, bg_color = alphabet_blue)
         self.error_message.grid(row = 5, column = 0, columnspan = 2, sticky = "n")
         
-        self.go_to_login_button = CTkButton(self.page_frame, text = "Go to Login", text_color = "black", fg_color ="white", bg_color = alphabet_blue, command = self.go_to_login)
+        self.go_to_login_button = CTkButton(self.page_frame, text = "Go to Login", text_color = "black",
+                                            fg_color ="white", bg_color = alphabet_blue, command = self.go_to_login)
         self.go_to_login_button.grid(row = 3, column = 0, sticky = "n")
         
     def register(self) :
-        """This method executes when the register_button is pressed.
-        It takes 3 values from username_entry, password_entry and 
-        confirm_password_entry from the RegisterPage class and checks 
-        whether the username or password are valid for creating the 
-        new user for the applicattion. If valid, method creates the 
-        new user, destroys the RegisterPage and generates the LoginPage,
-        else, the method throws back error for the error_message to generate."""
-    
         username_value = self.username_entry.get()
         password_value = self.password_entry.get()
         confirm_password_value = self.confirm_password_entry.get()

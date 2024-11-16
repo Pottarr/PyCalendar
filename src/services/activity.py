@@ -16,9 +16,6 @@ class Activity(ABC) :
     def edit_activity(self) :
         pass
     
-    def delete_activity(self) :
-        pass
-    
     
 
 class OneTimeActivity(Activity) :
@@ -29,7 +26,8 @@ class OneTimeActivity(Activity) :
         return False
 
 class RepeatableActivity(Activity) :
-    def __init__(self, name: str, description: str, date_of_activity: date, recurrence_type: str, start_date: date, end_date: Optional[date] = None) :
+    def __init__(self, name: str, description: str, date_of_activity: date, recurrence_type: str,
+                 start_date: date, end_date: Optional[date] = None) :
         super().__init__(name, description, date_of_activity)
         self.recurrence_type = recurrence_type  # e.g., "daily", "weekly", "annually"
         self.start_date = start_date

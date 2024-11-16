@@ -7,10 +7,11 @@ class User :
     def get_info(self) :
         return {"username": self.__username, "password": self.__password, "activity_log": self.__activity_log}
         
-    # def add_activity(self) :
-    #     pass 
+    def add_activity(self, activityObj) :
+        self.__activity_log.append(activityObj)
+        self.debug_print()
     
-    # def edit_activitty(self) :
+    # def edit_activity(self) :
     #     pass
     
     # def delete_activity(self) :
@@ -23,6 +24,10 @@ class User :
         self.__password = new_password
     
     def debug_print(self) :
+        print()
+        print("========== Debug ==========")
         print(self.__username)
         print(self.__password)
-    
+        print(self.__activity_log)
+        print("===========================")
+        print()

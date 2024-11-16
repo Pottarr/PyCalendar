@@ -1,16 +1,13 @@
 import os
-# from pathlib import Path
 from typing import Tuple, Union, BinaryIO
 import services.pickle_system as pkl
 import services.user as user
 
 
 def register(username:str , password: str, confirm_password: str) -> Tuple[bool, Union[user.User, str]]:
-    # """This function """
     if username == "" :
         return (False, "Error: Username is invalid.")
     else :
-        # file_path = Path("db/" + username + ".pickle")
         file_name = username + ".pickle"
         relative_path = "db/"
         file_path = os.path.join(relative_path, file_name)
@@ -18,7 +15,7 @@ def register(username:str , password: str, confirm_password: str) -> Tuple[bool,
             return (False, "Error: Username alreadhy exists.")
         else :
             if password == confirm_password :
-                initial_user_data = {"username": username, "password": password}
+                initial_user_data = {"username": username, "password": password, "activity_log": []}
                 #Include later: "activity_log": [], "daily_activity": [], "weekly_activity": [], "monthly_activity": [], "yearly_activity": [], "event": []
                 creating_user = user.User(initial_user_data)
                 # creating_user.debug_print()
@@ -28,7 +25,6 @@ def register(username:str , password: str, confirm_password: str) -> Tuple[bool,
                 return (False, "Error: Please check your password.")
         
 def login(username: str, password: str) -> Tuple[bool, Union[Tuple[user.User, BinaryIO]]] :
-    # """This function """
     
     file_name = f"{username}.pickle"
     relative_path = "db/"
@@ -41,7 +37,8 @@ def login(username: str, password: str) -> Tuple[bool, Union[Tuple[user.User, Bi
     # data.debug_print()
     correct_password = data.get_info().get("password")
     if correct_password == password :
-        login_user_data = {"username": data.get_info().get("username"), "password": data.get_info().get("password"), "activity_log:": data.get_info().get("activity_log")}
+        login_user_data = {"username": data.get_info().get("username"), "password": data.get_info().get("password"),
+                           "activity_log": data.get_info().get("activity_log")}
         current_user = user.User(login_user_data)
         # current_user = user.User(data)
         # current_user.debug_print()
