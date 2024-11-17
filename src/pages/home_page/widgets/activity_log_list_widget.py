@@ -1,6 +1,9 @@
 from customtkinter import *
 from PIL import Image
 from datetime import *
+import services.activity as act
+from pages.home_page.widgets.activity_list_item_widget import ActivityListItemWidget
+from pages.home_page.widgets.activity_info_widget import ActivityInfoWidget
 
 alphabet_blue = "#abcdef"
 python_blue_lighter = "#7bafe3"
@@ -8,8 +11,9 @@ very_light_gray = "#d3d3d3"
 
 
 class ActivityLogListWidget(CTkFrame) :
-    def __init__(self, master = None, parent_element = None, current_user = None, current_date = None, **kwargs,) :
+    def __init__(self, master = None, parent_element = None, current_user = None, current_date = None, **kwargs) :
         super().__init__(master, **kwargs, fg_color = python_blue_lighter)
+        print("ActivityLogListWidget was loaded")
         self.parent_element = parent_element
         self.current_user = current_user
         self.current_date = current_date
@@ -23,23 +27,61 @@ class ActivityLogListWidget(CTkFrame) :
         
         
         
+        self.activity_multi_info_frame = CTkFrame(self, fg_color = python_blue_lighter)
+        self.activity_multi_info_frame.grid(row = 0, column = 0, sticky = "nsew")
+        # self.activity_multi_info_frame.pack(fill = "both", expand = True)
         
-        self.activity_log_scrollable_frame = CTkScrollableFrame(self, fg_color = very_light_gray)
-        self.activity_log_scrollable_frame.grid(row = 0, column = 0, sticky = "nsew")
+        self.activity_log_scrollable_frame = CTkScrollableFrame(self.activity_multi_info_frame, fg_color = very_light_gray)
+        # self.activity_log_scrollable_frame.grid(row = 0, column = 0, sticky = "nsew", padx = 5)
+        self.activity_log_scrollable_frame.pack(fill = "both", expand = True, side = "left", padx = 5)
         
         if len(current_user.get_info().get("activity_log")) == 0 :
             self.no_activity_label = CTkLabel(self.activity_log_scrollable_frame, text = "No Activity", font = ("Arial", 40))
-            self.no_activity_label.pack(fill = "both", pady = 200)
+            self.no_activity_label.pack(fill = "both", expand = True, pady = 200)
         else :
             self.matched_activity = []
             all_activity = self.current_user.get_info().get("activity_log")
-            print(all_activity)
+            for activity in all_activity :
+                if isinstance(activity, act.NormalActivity) :
+                    
+                    # print(f"activity date: {activity.date_of_activity}")
+                    # print(f"current date: {self.current_date}")
+                    if activity.date_of_activity == self.current_date :
+                        self.matched_activity.append(activity)
+                        # print(self.matched_activity)
+                elif isinstance(activity, act.RepeatableActivity) :
+                    pass
+                else :
+                    print("Error: Invalid type of Activity")
+
+                    
+            # print(self.matched_activity)
+            self.all_activity_frame = []
+            for activity in self.matched_activity :
+                activity_frame = ActivityListItemWidget(self.activity_log_scrollable_frame, self, activity)
+                activity_frame.grid_columnconfigure(0, weight = 1)
+                activity_frame.grid_rowconfigure(0, weight = 1)
+                # print(activity.name)
+                # activity_label = CTkLabel(activity_frame, text = activity.name)
+                # activity_label.grid(row = 0, column = 0, sticky = "nsew")
+                self.all_activity_frame.append(activity_frame)
             
+            # print(self.all_activity_frame)
+            for activity_frame in self.all_activity_frame :
+                activity_frame.pack(fill = "x", pady = 5)
+                
+        self.activity_info_frame = CTkFrame(self.activity_multi_info_frame, fg_color = very_light_gray)
+        # self.activity_info_frame.grid(row = 0, column = 1, sticky = "nsew", padx = 5)
+        self.activity_info_frame.pack(fill = "both", expand = True, side = "right", padx = 5)
+        
+        self.activity_info_widget = ActivityInfoWidget(self.activity_info_frame, activity = None)
+        self.activity_info_widget.grid(row = 0, column = 0, sticky = "nsew")
+        
                         
         self.footer_button_frame = CTkFrame(self, fg_color = python_blue_lighter)
         self.footer_button_frame.grid_columnconfigure((0, 1, 2), weight = 1)
         self.footer_button_frame.grid_rowconfigure(0, weight = 1)
-        self.footer_button_frame.grid(row = 1, column = 0, sticky = "nsew")
+        self.footer_button_frame.grid(row = 1, column = 0, columnspan = 2, sticky = "nsew", pady = 5)
         
         self.previous_day_button = CTkButton(self.footer_button_frame, fg_color = python_blue_lighter,
                                              hover_color = python_blue_lighter, text = "",
@@ -58,6 +100,12 @@ class ActivityLogListWidget(CTkFrame) :
                                              image = self.next_icon, width = 30, height = 30,
                                              command = self.next_day)
         self.next_day_button.grid(row = 0, column = 2, sticky = "nsw")
+        
+        
+        
+    def show_activity_info(self, activity) :
+        self.activity_info_widget = ActivityInfoWidget(self.activity_info_frame, self, activity)
+        self.activity_info_widget.grid(row = 0, column = 0, sticky = "nsew")
         
     def previous_day(self) :
         self.parent_element.backward_current_date()

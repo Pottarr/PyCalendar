@@ -10,8 +10,6 @@ import time
 # import widgets.calendar as calendar
 
 alphabet_blue = "#abcdef"
-# trueman_green= "#aae5a4"
-# cutie_pink = "#fcd1eb"
 python_yellow = "#ffe873"
 python_blue = "#306998"
 python_blue_lighter = "#7bafe3"
@@ -34,6 +32,7 @@ class HomePage(Page) :
         self.page_frame = CTkFrame(self.root, fg_color = alphabet_blue, bg_color = alphabet_blue)
         self.page_frame.columnconfigure(0, weight = 1)
         # self.page_frame.rowconfigure((0,1), weight = 1)
+        self.page_frame.rowconfigure(0, weight = 1)
         self.page_frame.rowconfigure(1, weight = 16)
         self.page_frame.grid(row = 0, column = 0, sticky= "nsew")
         
@@ -116,8 +115,6 @@ class HomePage(Page) :
                                            font = ("Arial", 40))
         self.activity_log_label.grid(row = 0, column = 0, sticky = "nsew")
         
-        
-        
         self.display_activity_log()
         
         
@@ -131,6 +128,7 @@ class HomePage(Page) :
         from pages.home_page.widgets.activity_log_list_widget import ActivityLogListWidget
         self.activity_log_list_widget = ActivityLogListWidget(self.activity_log_frame, self, self.current_user, self.current_date)
         self.activity_log_list_widget.grid(row = 1, column = 0, sticky = "nsew", padx = 20)
+        
         
     def display_add_activity(self) :
         from pages.home_page.widgets.add_activity_widget import AddActivityWidget
@@ -151,6 +149,8 @@ class HomePage(Page) :
         self.calendar.selection_set(self.current_date_obj)
         self.current_date = self.current_date_obj.strftime("%d/%m/%Y")
         self.activity_log_label.configure(text = self.current_date)
+        self.activity_log_list_widget.destroy()
+        self.display_activity_log()
         
     def forward_current_date(self) :
         self.current_date_obj = datetime.strptime(self.current_date, "%d/%m/%Y").date()
@@ -158,5 +158,7 @@ class HomePage(Page) :
         self.calendar.selection_set(self.current_date_obj)
         self.current_date = self.current_date_obj.strftime("%d/%m/%Y")
         self.activity_log_label.configure(text = self.current_date)
+        self.activity_log_list_widget.destroy()
+        self.display_activity_log()
         
     

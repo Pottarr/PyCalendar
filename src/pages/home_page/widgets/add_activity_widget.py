@@ -1,6 +1,5 @@
 from customtkinter import *
 import tkinter as tk
-from PIL import Image
 from datetime import datetime
 import tkcalendar as tkcal
 import services.activity_configuration as act_con
@@ -15,6 +14,7 @@ python_blue = "#306998"
 class AddActivityWidget(CTkFrame) :
     def __init__(self, master = None, parent_element = None, current_user = None, current_date = None, file_obj = None, **kwargs,) :
         super().__init__(master, **kwargs, fg_color = python_blue_lighter)
+        print("AddActivityWidget was loaded")
         self.parent_element = parent_element
         self.current_user = current_user
         self.current_date = current_date
@@ -58,7 +58,7 @@ class AddActivityWidget(CTkFrame) :
         self.new_activity_type_frame = CTkFrame(self.add_activity_frame, fg_color = very_light_gray)
         self.new_activity_type_frame.grid_columnconfigure((0, 1, 2, 3), weight = 1)
         self.new_activity_type_frame.grid_rowconfigure((0, 1), weight = 1)
-        self.new_activity_type_frame.grid(row = 4, column = 0, columnspan = 2, sticky = "nsew", padx = 5, pady = 5)
+        self.new_activity_type_frame.grid(row = 4, column = 0, columnspan = 3, sticky = "nsew", padx = 5, pady = 5)
         
         self.new_activity_type_label = CTkLabel(self.new_activity_type_frame, text  = "Type")
         self.new_activity_type_label.grid(row = 0, column = 0, sticky = "nsw")
@@ -77,28 +77,37 @@ class AddActivityWidget(CTkFrame) :
         self.annually_type_radio_button = CTkRadioButton(self.new_activity_type_frame, text = "Annually", command = self.pick_activity_type, variable = self.chosen_type, value = "Annually")
         self.annually_type_radio_button.grid(row = 1, column = 3, sticky = "nsew")
         
-        self.misc_frame = CTkFrame(self.new_activity_type_frame, fg_color = very_light_gray)
-        self.misc_frame.grid_columnconfigure(0, weight = 1)
-        self.misc_frame.grid_rowconfigure((0, 1), weight = 1)
-        self.misc_frame.grid(row = 4, column = 2, sticky = "nsew")
+        # self.error_message_frame = CTkFrame(self.new_activity_type_frame, fg_color = very_light_gray)
+        # self.error_message_frame.grid_columnconfigure(0, weight = 1)
+        # self.error_message_frame.grid_rowconfigure(0, weight = 1)
+        # self.error_message_frame.grid(row = 4, column = 2, sticky = "nsew")
         
-        self.date_of_activity = self.calendar.get_date()
-        self.date_of_activity_obj = datetime.strptime(self.date_of_activity, "%d/%m/%Y").date()
-        self.date_of_activity = datetime.strptime(self.date_of_activity, "%d/%m/%Y").date()
-        self.day_of_week = self.date_of_activity_obj.strftime("%A")
+        # self.error_message_label = CTkLabel(self.error_message_frame, text = "", text_color = "red")
+        # self.error_message_label.grid(row = 0, column = 0, sticky = "nsew")
         
-        self.day_of_week_label = CTkLabel(self.misc_frame, text = self.day_of_week)
+        # self.date_of_activity = self.calendar.get_date()
+        # self.date_of_activity_obj = datetime.strptime(self.date_of_activity, "%d/%m/%Y")
+        # self.date_of_activity = self.date_of_activity_obj.strftime("%d/%m/%Y")
+        # print(self.date_of_activity)
+        # self.day_of_week = self.date_of_activity_obj.strftime("%A")
+        
+        # self.day_of_week_label = CTkLabel(self.misc_frame, text = self.day_of_week)
         
             
         self.footer_button_frame = CTkFrame(self, fg_color = python_blue_lighter)
-        self.footer_button_frame.grid_columnconfigure(0, weight = 1)
+        self.footer_button_frame.grid_columnconfigure((0, 1), weight = 1)
         self.footer_button_frame.grid_rowconfigure(0, weight = 1)
-        self.footer_button_frame.grid(row = 1, column = 0, sticky = "nsew")
+        self.footer_button_frame.grid(row = 1, column = 0, sticky = "nsew", pady = 10)
         
-        self.add_activity_button = CTkButton(self.footer_button_frame, fg_color = "green",
+        self.save_button = CTkButton(self.footer_button_frame, fg_color = "green",
                                              hover_color = "green", text = "Save",
                                              command = self.save)
-        self.add_activity_button.grid(row = 0, column = 0)
+        self.save_button.grid(row = 0, column = 0, sticky = "nse", padx = 25)
+        
+        self.cancel_button = CTkButton(self.footer_button_frame, fg_color = "red",
+                                             hover_color = "red", text = "Cancel",
+                                             command = self.cancel)
+        self.cancel_button.grid(row = 0, column = 1, sticky = "nsw", padx = 25)
         
     def pick_activity_type(self,) :
         return self.chosen_type.get()
@@ -108,16 +117,21 @@ class AddActivityWidget(CTkFrame) :
         name = self.new_activity_name_entry.get()
         description = self.new_activity_description_textbox.get("0.0", "end")
         
-        # date_of_activity = self.calendar.get_date()
-        # date_of_activity_obj = datetime.strptime(date_of_activity, "%d/%m/%Y").date()
-        # date_of_activity = date_of_activity_obj.strftime("%d/%m/%Y")
+        self.date_of_activity = self.calendar.get_date()
+        date_of_activity_obj = datetime.strptime(self.date_of_activity, "%d/%m/%Y").date()
+        self.date_of_activity = date_of_activity_obj.strftime("%d/%m/%Y")
         
-        # day_of_week = date_of_activity_obj.strftime("%A")
+        self.day_of_week = date_of_activity_obj.strftime("%A")
         activity_type = self.pick_activity_type()
         
         act_con.create_activity(self.current_user, name, description, self.date_of_activity, self.day_of_week, activity_type, self.file_obj)
         # act_con.create_activity(self.current_user, name, description, date_of_activity, day_of_week, is_repeatable, activity_type, self.file_obj)
         
         print("Save")
+        self.destroy()
+        self.parent_element.display_activity_log()
+    
+    def cancel(self) :
+        print("Cancel")
         self.destroy()
         self.parent_element.display_activity_log()
