@@ -33,10 +33,10 @@ def login(username: str, password: str) -> Tuple[bool, Union[Tuple[user.User, Bi
         data, file_obj = pkl.read_file(file_path)
     except FileNotFoundError :
         return (False, "Error: Username not found.")
-    correct_password = data.get("password")
+    correct_password = data.get_info().get("password")
     if correct_password == password :
-        login_user_data = {"username": data.get("username"), "password": data.get("password"),
-                           "activity_log": data.get("activity_log")}
+        login_user_data = {"username": data.get_info().get("username"), "password": data.get_info().get("password"),
+                           "activity_log": data.get_info().get("activity_log")}
         current_user = user.User(login_user_data)
         return (True, (current_user, file_obj))
     elif correct_password != password :
