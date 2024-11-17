@@ -13,7 +13,6 @@ class ActivityLogListWidget(CTkFrame) :
         self.parent_element = parent_element
         self.current_user = current_user
         self.current_date = current_date
-        print(type(self.current_date))
         self.grid_columnconfigure(0, weight = 1)
         self.grid_rowconfigure(0, weight = 9)
         self.grid_rowconfigure(1, weight = 1)

@@ -74,7 +74,8 @@ class HomePage(Page) :
                                        date_pattern = "dd/mm/yyyy")
         self.calendar.pack(fill = tk.BOTH, expand = True)
         
-        
+        self.calendar.bind("<<CalendarSelected>>", self.date_detection)
+
         
         self.current_time_label = CTkLabel(self.padding_frame, text = time.strftime("%H:%M:%S"),
                                            font = ("Arial", 30))
@@ -133,12 +134,16 @@ class HomePage(Page) :
         
     def display_add_activity(self) :
         from pages.home_page.widgets.add_activity_widget import AddActivityWidget
-        self.add_activity_widget = AddActivityWidget(self.activity_log_frame, self, self.current_user, self.current_date)
+        self.add_activity_widget = AddActivityWidget(self.activity_log_frame, self, self.current_user, self.current_date, self.file_obj)
         self.add_activity_widget.grid(row = 1, column = 0, sticky = "nsew", padx = 20)
         
     def logout(self, current_user) :
         auth.logout(self.current_user, self.file_obj)
         self.go_to_login()
+    
+    def date_detection(self, event) :
+        # self.calendar.get_date()
+        self.activity_log_label.configure(text = self.calendar.get_date())
     
     def backward_current_date(self) :
         self.current_date_obj = datetime.strptime(self.current_date, "%d/%m/%Y").date()

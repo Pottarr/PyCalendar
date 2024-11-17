@@ -3,8 +3,6 @@ import services.auth_system as auth
 from pages.page import Page
 
 alphabet_blue = "#abcdef"
-trueman_green = "#aae5a4"
-
         
 class LoginPage(Page) :
     """This class generates the Login Page"""
