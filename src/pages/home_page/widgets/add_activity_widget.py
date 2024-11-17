@@ -114,11 +114,8 @@ class AddActivityWidget(CTkFrame) :
         
         # day_of_week = date_of_activity_obj.strftime("%A")
         activity_type = self.pick_activity_type()
-        is_repeatable = False
-        if activity_type != "Normal" :            
-            is_repeatable = True
         
-        act_con.create_activity(self.current_user, name, description, self.date_of_activity, self.day_of_week, is_repeatable, activity_type, self.file_obj)
+        act_con.create_activity(self.current_user, name, description, self.date_of_activity, self.day_of_week, activity_type, self.file_obj)
         # act_con.create_activity(self.current_user, name, description, date_of_activity, day_of_week, is_repeatable, activity_type, self.file_obj)
         
         print("Save")

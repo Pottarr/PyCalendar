@@ -17,8 +17,6 @@ class ActivityLogListWidget(CTkFrame) :
         self.grid_rowconfigure(0, weight = 9)
         self.grid_rowconfigure(1, weight = 1)
         
-        
-        
         self.prev_icon = CTkImage(light_image = Image.open("icons/previous.png"), size = (40, 40))
         self.add_icon = CTkImage(light_image = Image.open("icons/add.png"), size = (40,40))
         self.next_icon = CTkImage(light_image = Image.open("icons/next.png"), size = (40, 40))
@@ -29,12 +27,15 @@ class ActivityLogListWidget(CTkFrame) :
         self.activity_log_scrollable_frame = CTkScrollableFrame(self, fg_color = very_light_gray)
         self.activity_log_scrollable_frame.grid(row = 0, column = 0, sticky = "nsew")
         
-        if len(current_user["activity_log"]) == 0 :
+        if len(current_user.get_info().get("activity_log")) == 0 :
             self.no_activity_label = CTkLabel(self.activity_log_scrollable_frame, text = "No Activity", font = ("Arial", 40))
             self.no_activity_label.pack(fill = "both", pady = 200)
         else :
             self.matched_activity = []
+            all_activity = self.current_user.get_info().get("activity_log")
+            print(all_activity)
             
+                        
         self.footer_button_frame = CTkFrame(self, fg_color = python_blue_lighter)
         self.footer_button_frame.grid_columnconfigure((0, 1, 2), weight = 1)
         self.footer_button_frame.grid_rowconfigure(0, weight = 1)

@@ -20,7 +20,7 @@ class HomePage(Page) :
     """This class generates the Home Page."""
     def __init__(self, root, login_result) :
         self.root = root
-        self.current_user = login_result[0].get_info()
+        self.current_user = login_result[0]
         self.file_obj = login_result[1]
         
         
@@ -85,7 +85,7 @@ class HomePage(Page) :
         
         
         self.current_user_label = CTkLabel(self.padding_frame,
-                                           text = f"Current User: {self.current_user.get("username")}",
+                                           text = f"Current User: {self.current_user.get_info().get("username")}",
                                            font = ("Arial", 30))
         self.current_user_label.grid(row = 8, column = 0, columnspan = 5, sticky = "nsew")
         

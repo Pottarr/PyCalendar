@@ -7,8 +7,8 @@ class User :
     def get_info(self) :
         return {"username": self.__username, "password": self.__password, "activity_log": self.__activity_log}
         
-    def add_activity(self, activityObj) :
-        self.__activity_log.append(activityObj)
+    def add_activity(self, activity_obj) :
+        self.__activity_log.append(activity_obj)
         self.debug_print()
     
     # def edit_activity(self) :
