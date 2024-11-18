@@ -33,16 +33,11 @@ class ActivityInfoWidget(CTkFrame) :
             anything.destroy()
         
         if self.activity == None :
+            
             self.no_activity_selected_label = CTkLabel(self, text = "No Activity Selected", text_color = "black", font = ("Arial", 20))
             self.no_activity_selected_label.grid(row = 0, column = 0, rowspan = 4, columnspan = 4, sticky = "nsew")
-        else :
-        
-        # for i in range(4) :
-        #     for j in range(4) :
-        #         box = CTkFrame(self, border_color = "purple", border_width = 2)
-        #         box.grid(row = i, column = j)
-                # box.grid(row = i, column = j, sticky = "nsew")
-        
+        else :        
+            
             self.name_tile_label = CTkLabel(self, text = "Title:")
             self.name_tile_label.grid(row = 0, column = 0, sticky = "ew")
             

@@ -14,9 +14,6 @@ class User :
     def add_activity(self, activity_obj) :
         self.__activity_log.append(activity_obj)
     
-    # def edit_activity(self) :
-    #     pass
-    
     def delete_activity(self, activity) :
         self.__activity_log.remove(activity)
     
@@ -25,12 +22,3 @@ class User :
         
     def clear_history(self) :
         self.__activity_log.clear()
-    
-    def debug_print(self) :
-        print()
-        print("========== Debug ==========")
-        print(self.__username)
-        print(self.__password)
-        print(self.__activity_log)
-        print("===========================")
-        print()

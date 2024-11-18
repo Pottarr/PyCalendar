@@ -16,9 +16,7 @@ def register(username:str , password: str, confirm_password: str) -> Tuple[bool,
         else :
             if password == confirm_password :
                 initial_user_data = {"username": username, "password": password, "activity_log": []}
-                #Include later: "activity_log": [], "daily_activity": [], "weekly_activity": [], "monthly_activity": [], "yearly_activity": [], "event": []
                 creating_user = user.User(initial_user_data)
-                # creating_user.debug_print()
                 pkl.write_file(file_path, creating_user)
                 return (True, creating_user)
             else :

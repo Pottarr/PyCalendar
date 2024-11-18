@@ -12,14 +12,12 @@ class RegisterPage(Page) :
     """This class generates the Register Page."""
     def __init__(self, root) :
     
-        # Page Frame 
         self.root = root
         self.page_frame = CTkFrame(self.root, fg_color = alphabet_blue, bg_color = alphabet_blue)
         self.page_frame.grid_columnconfigure(0, weight = 1)
         self.page_frame.grid_rowconfigure(tuple([i for i in range(5)]), weight = 1)
         self.page_frame.pack(fill = "both", expand = True)
-
-        # Register Frame
+        
         self.register_frame = CTkFrame(self.page_frame, fg_color = alphabet_blue, bg_color = alphabet_blue)
         self.register_frame.grid_columnconfigure(0, weight = 1)
         self.register_frame.grid_rowconfigure(0, weight = 1)
@@ -65,7 +63,8 @@ class RegisterPage(Page) :
         self.error_message.grid(row = 5, column = 0, columnspan = 2, sticky = "n")
         
         self.go_to_login_button = CTkButton(self.page_frame, text = "Go to Login", text_color = "black",
-                                            fg_color ="white", bg_color = alphabet_blue, command = self.go_to_login)
+                                            fg_color ="white", bg_color = alphabet_blue,
+                                            command = self.go_to_login)
         self.go_to_login_button.grid(row = 3, column = 0, sticky = "n")
         
     def register(self) :
@@ -73,10 +72,8 @@ class RegisterPage(Page) :
         password_value = self.password_entry.get()
         confirm_password_value = self.confirm_password_entry.get()
         
-        
         new_user = auth.register(username_value, password_value, confirm_password_value)
         can_register = list(new_user)[0]
-        
         
         if can_register == True :
             new_user_data = list(new_user)[1]

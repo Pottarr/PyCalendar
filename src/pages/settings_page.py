@@ -18,13 +18,11 @@ class SettingsPage(Page) :
         self.current_user = embed_data[0]
         self.file_obj = embed_data[1]
         
-        # Picture for buttons
         self.home_icon = CTkImage(light_image = Image.open("icons/home.png"), size = (40, 40))
         self.logout_icon = CTkImage(light_image = Image.open("icons/logout.png"), size = (40, 40))
         
         self.page_frame = CTkFrame(self.root, fg_color = alphabet_blue)
         self.page_frame.columnconfigure(0, weight = 1)
-        # self.page_frame.rowconfigure((0,1), weight = 1)
         self.page_frame.rowconfigure(0, weight = 1)
         self.page_frame.rowconfigure(1, weight = 16)
         self.page_frame.pack(fill = "both", expand = True)
@@ -81,12 +79,12 @@ class SettingsPage(Page) :
                                     command = self.save)
         self.save_button.grid(row = 4, column = 0, columnspan = 3, pady = 20)
         
-        self.clear_history_button = CTkButton(self.setting_body_frame, text = "Clear History", text_color = "black",
+        self.clear_history_button = CTkButton(self.setting_body_frame, text = "Clear History",
+                                              text_color = "black",
                                     fg_color ="white", bg_color = alphabet_blue,
                                     command = self.clear_history)
         self.clear_history_button.grid(row = 5, column = 0, columnspan = 3, pady = 20)
         
-     
     def logout(self) :
         auth.logout(self.current_user, self.file_obj)
         self.go_to_login()   

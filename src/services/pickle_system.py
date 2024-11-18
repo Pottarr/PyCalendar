@@ -6,13 +6,9 @@ def write_file(file_path, data) :
         pickle.dump(data, f)
         
 def read_file(file_path) :
-    # print("FIle Path inside pickle read")
-    # print(file_path)
     with open(file_path, "rb") as f :
         print("File Opened: Read")
         data = pickle.load(f)
-        # print(data)
-        # print(type(data))
         return (data, f)
     
 def close_file(file_obj) :

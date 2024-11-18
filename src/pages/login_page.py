@@ -12,8 +12,6 @@ class LoginPage(Page) :
     """This class generates the Login Page"""
     def __init__(self, root) :
         
-        
-        # Page Frame
         self.root = root
         self.page_frame = CTkFrame(self.root, fg_color = alphabet_blue, bg_color = alphabet_blue)
         self.page_frame.grid_columnconfigure(0, weight = 1)
@@ -24,13 +22,11 @@ class LoginPage(Page) :
                                     bg_color = alphabet_blue)
         self.title_label.grid(row = 0, column = 0, sticky = "s")
         
-        # Login Frame
         self.login_frame = CTkFrame(self.page_frame, fg_color = alphabet_blue, bg_color = alphabet_blue)
         self.login_frame.grid_columnconfigure(0, weight = 1)
         self.login_frame.grid_rowconfigure((0, 1), weight = 1)
         self.login_frame.grid(row = 2, column = 0, sticky = "nsew")
 
-        
         self.login_label = CTkLabel(self.login_frame, text = "Login", font = ("Arial", 20),
                                     fg_color = alphabet_blue, bg_color = alphabet_blue)
         self.login_label.grid(row = 0, column = 0, sticky = "s")
@@ -61,8 +57,7 @@ class LoginPage(Page) :
         self.error_message = CTkLabel(self.entry_frame, text = self.login_error, text_color = "red",
                                       fg_color = alphabet_blue, bg_color = alphabet_blue)
         self.error_message.grid(row = 3, column = 0, columnspan = 2, sticky = "n")
-        
-        #Go to Register Button 
+
         self.go_to_register_button = CTkButton(self.page_frame, text = "Go to Register",
                                                text_color = "black", fg_color = "white",
                                                bg_color = alphabet_blue, command = self.go_to_register)
@@ -73,7 +68,6 @@ class LoginPage(Page) :
         password_value = self.password_entry.get()
         
         can_login, login_result = auth.login(username_value, password_value)
-        
         
         if can_login == True :
             login_result[0].debug_print()
