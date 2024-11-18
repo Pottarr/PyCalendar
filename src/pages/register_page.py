@@ -3,7 +3,10 @@ from customtkinter import *
 import services.auth_system as auth
 
 alphabet_blue = "#abcdef"
-trueman_green = "#aae5a4"
+python_yellow = "#ffe873"
+python_blue = "#306998"
+python_blue_lighter = "#7bafe3"
+very_light_gray = "#d3d3d3"
 
 class RegisterPage(Page) :
     """This class generates the Register Page."""
@@ -14,7 +17,7 @@ class RegisterPage(Page) :
         self.page_frame = CTkFrame(self.root, fg_color = alphabet_blue, bg_color = alphabet_blue)
         self.page_frame.grid_columnconfigure(0, weight = 1)
         self.page_frame.grid_rowconfigure(tuple([i for i in range(5)]), weight = 1)
-        self.page_frame.grid(row = 0, column = 0, sticky = "nsew")
+        self.page_frame.pack(fill = "both", expand = True)
 
         # Register Frame
         self.register_frame = CTkFrame(self.page_frame, fg_color = alphabet_blue, bg_color = alphabet_blue)

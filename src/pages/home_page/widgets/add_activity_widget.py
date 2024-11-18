@@ -6,10 +6,10 @@ import services.activity_configuration as act_con
 
 
 alphabet_blue = "#abcdef"
-python_blue_lighter = "#7bafe3"
-very_light_gray = "#d3d3d3"
 python_yellow = "#ffe873"
 python_blue = "#306998"
+python_blue_lighter = "#7bafe3"
+very_light_gray = "#d3d3d3"
 
 class AddActivityWidget(CTkFrame) :
     def __init__(self, master = None, parent_element = None, current_user = None, current_date = None, file_obj = None, **kwargs,) :
@@ -58,13 +58,13 @@ class AddActivityWidget(CTkFrame) :
         self.new_activity_type_frame = CTkFrame(self.add_activity_frame, fg_color = very_light_gray)
         self.new_activity_type_frame.grid_columnconfigure((0, 1, 2, 3), weight = 1)
         self.new_activity_type_frame.grid_rowconfigure((0, 1), weight = 1)
-        self.new_activity_type_frame.grid(row = 4, column = 0, columnspan = 3, sticky = "nsew", padx = 5, pady = 5)
+        self.new_activity_type_frame.grid(row = 4, column = 0, columnspan = 2, sticky = "nsew", padx = 5, pady = 5)
         
         self.new_activity_type_label = CTkLabel(self.new_activity_type_frame, text  = "Type:")
         self.new_activity_type_label.grid(row = 0, column = 0, sticky = "nsw")
         
         self.chosen_type = StringVar(value = "None")
-        
+        # self.activity_type = "None"
         self.normal_type_radio_button = CTkRadioButton(self.new_activity_type_frame, text = "Normal", command = self.pick_activity_type, variable = self.chosen_type, value = "Normal")
         self.normal_type_radio_button.grid(row = 1, column = 0, sticky = "nsew")
         
@@ -77,13 +77,13 @@ class AddActivityWidget(CTkFrame) :
         self.annually_type_radio_button = CTkRadioButton(self.new_activity_type_frame, text = "Annually", command = self.pick_activity_type, variable = self.chosen_type, value = "Annually")
         self.annually_type_radio_button.grid(row = 1, column = 3, sticky = "nsew")
         
-        # self.error_message_frame = CTkFrame(self.new_activity_type_frame, fg_color = very_light_gray)
-        # self.error_message_frame.grid_columnconfigure(0, weight = 1)
-        # self.error_message_frame.grid_rowconfigure(0, weight = 1)
-        # self.error_message_frame.grid(row = 4, column = 2, sticky = "nsew")
+        self.error_message_frame = CTkFrame(self.new_activity_type_frame, fg_color = very_light_gray)
+        self.error_message_frame.grid_columnconfigure(0, weight = 1)
+        self.error_message_frame.grid_rowconfigure(0, weight = 1)
+        self.error_message_frame.grid(row = 1, column = 4, sticky = "nsew")
         
-        # self.error_message_label = CTkLabel(self.error_message_frame, text = "", text_color = "red")
-        # self.error_message_label.grid(row = 0, column = 0, sticky = "nsew")
+        self.error_message_label = CTkLabel(self.error_message_frame, text = "", text_color = "red")
+        self.error_message_label.grid(row = 0, column = 0, sticky = "nsew")
         
         # self.date_of_activity = self.calendar.get_date()
         # self.date_of_activity_obj = datetime.strptime(self.date_of_activity, "%d/%m/%Y")
@@ -122,16 +122,27 @@ class AddActivityWidget(CTkFrame) :
         self.date_of_activity = date_of_activity_obj.strftime("%d/%m/%Y")
         
         self.day_of_week = date_of_activity_obj.strftime("%A")
-        activity_type = self.pick_activity_type()
+        self.activity_type = self.pick_activity_type()
         
-        act_con.create_activity(self.current_user, name, description, self.date_of_activity, self.day_of_week, activity_type, self.file_obj)
-        # act_con.create_activity(self.current_user, name, description, date_of_activity, day_of_week, is_repeatable, activity_type, self.file_obj)
+        print(self.activity_type)
+        if len(self.new_activity_name_entry.get()) == 0 and self.activity_type == "None" :
+            self.error_message_label.configure(text = "Error: Please carefully check your Input")
+        elif len(self.new_activity_name_entry.get()) == 0 :
+            self.error_message_label.configure(text = "Error: Need Activity Title")
+        elif self.activity_type == "None" :
+            self.error_message_label.configure(text = "Error: Please choose Activity Type")
+        elif len(self.new_activity_name_entry.get()) != 0 and self.activity_type != "None" :
+            self.error_message_label.configure(text = "")
+            act_con.create_activity(self.current_user, name, description, self.date_of_activity, self.day_of_week, self.activity_type, self.file_obj)
+            self.destroy()
+            self.parent_element.display_activity_log()
+            print("Save")
+        else :
+            self.error_message_label.configure(text = "Error: Something went wrong")
+            
         
-        print("Save")
-        self.destroy()
-        self.parent_element.display_activity_log()
     
     def cancel(self) :
         print("Cancel")
         self.destroy()
-        self.parent_element.display_activity_log()
+        self.parent_element.display_activity_log(caller = "not none")

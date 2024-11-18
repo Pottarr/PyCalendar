@@ -28,12 +28,6 @@ def create_activity(current_user, name, description, date_of_activity, day_of_we
     pkl.write_file(file_path, current_user)
     pkl.close_file(file_obj)
     pkl.read_file(file_path)
-    
-    
-        
-
-def edit_activity() :
-    pass
 
 def delete_activity(current_user, activity, file_obj) :
     current_user.delete_activity(activity)

@@ -3,6 +3,10 @@ import services.auth_system as auth
 from pages.page import Page
 
 alphabet_blue = "#abcdef"
+python_yellow = "#ffe873"
+python_blue = "#306998"
+python_blue_lighter = "#7bafe3"
+very_light_gray = "#d3d3d3"
         
 class LoginPage(Page) :
     """This class generates the Login Page"""
@@ -14,7 +18,7 @@ class LoginPage(Page) :
         self.page_frame = CTkFrame(self.root, fg_color = alphabet_blue, bg_color = alphabet_blue)
         self.page_frame.grid_columnconfigure(0, weight = 1)
         self.page_frame.grid_rowconfigure(tuple([i for i in range(6)]), weight = 1)
-        self.page_frame.grid(row = 0, column = 0, sticky = "nsew")
+        self.page_frame.pack(fill = "both", expand = True)
 
         self.title_label = CTkLabel(self.page_frame, text = "PyCalendar", font = ("Arial", 40),
                                     bg_color = alphabet_blue)
@@ -76,7 +80,7 @@ class LoginPage(Page) :
             
             import pages.home_page.home_page as home_page
             self.login_error = ""
-            self.go_to_home(login_result)
+            self.go_to_home(embed_data = login_result)
             
         elif can_login == False :
             self.login_error = login_result

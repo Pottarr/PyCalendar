@@ -1,7 +1,11 @@
 from customtkinter import *
 from PIL import Image
 
-
+alphabet_blue = "#abcdef"
+python_yellow = "#ffe873"
+python_blue = "#306998"
+python_blue_lighter = "#7bafe3"
+very_light_gray = "#d3d3d3"
 class ActivityListItemWidget(CTkFrame) :
     def __init__(self, master = None, parent_element = None, activity = None, file_obj = None, **kwargs) :
         super().__init__(master, **kwargs, fg_color = "white", border_color = "black", border_width = 1)

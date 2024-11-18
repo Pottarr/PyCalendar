@@ -16,14 +16,14 @@ class Page(ABC) :
         self.page_frame.destroy()
         login_page.LoginPage(self.root)
     
-    def go_to_home(self, login_result) :
+    def go_to_home(self, embed_data) :
         """This method destroys the current page and generates the HomePage."""
         import pages.home_page.home_page as home_page
         self.page_frame.destroy()
-        home_page.HomePage(self.root, login_result)
+        home_page.HomePage(self.root, embed_data)
     
-    def go_to_settings(self) :
+    def go_to_settings(self, embed_data) :
         """This method destroys the current page and generates the SettingsPage."""
         import pages.settings_page as settings_page
         self.page_frame.destroy()
-        settings_page.SettingsPage(self.root)
+        settings_page.SettingsPage(self.root, embed_data)

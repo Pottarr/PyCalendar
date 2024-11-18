@@ -1,13 +1,19 @@
 from customtkinter import *
 from PIL import Image
+from datetime import *
 import services.activity as act
 import services.activity_configuration as act_con
 
+alphabet_blue = "#abcdef"
+python_yellow = "#ffe873"
+python_blue = "#306998"
+python_blue_lighter = "#7bafe3"
 very_light_gray = "#d3d3d3"
 
 class ActivityInfoWidget(CTkFrame) :
-    def __init__(self, master = None, current_user = None, activity = None, file_obj = None, **kwargs) :
+    def __init__(self, master = None, parent_element = None, current_user = None, activity = None, file_obj = None, **kwargs) :
         super().__init__(master, **kwargs, fg_color = very_light_gray)
+        self.parent_element = parent_element
         self.current_user = current_user
         self.activity = activity
         self.file_obj = file_obj
@@ -87,7 +93,8 @@ class ActivityInfoWidget(CTkFrame) :
                     if self.activity.activity_type == "Weekly" :
                         self.date_label.configure(text = f"Every {self.activity.day_of_week}")
                     elif self.activity.activity_type == "Annually" :
-                        self.date_label.configure(text = f"Every {self.activity.date_of_activity.date_of_activity}") # Need fix
+                        activity_date_without_yr = datetime.strptime(self.activity.date_of_activity, "%d/%m/%Y").strftime("%d/%m")
+                        self.date_label.configure(text = f"Every {activity_date_without_yr}")
                         
             self.delete_button = CTkButton(self, fg_color = very_light_gray,
                                                     hover_color = very_light_gray, text = "",
@@ -100,4 +107,4 @@ class ActivityInfoWidget(CTkFrame) :
         act_con.delete_activity(self.current_user, self.activity, self.file_obj)
         self.destroy()
         self.parent_element.display_activity_info()
-        # self.parent_element.parent_element.display_activity_log()
+        self.parent_element.parent_element.display_activity_log()

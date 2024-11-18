@@ -6,6 +6,8 @@ from pages.home_page.widgets.activity_list_item_widget import ActivityListItemWi
 from pages.home_page.widgets.activity_info_widget import ActivityInfoWidget
 
 alphabet_blue = "#abcdef"
+python_yellow = "#ffe873"
+python_blue = "#306998"
 python_blue_lighter = "#7bafe3"
 very_light_gray = "#d3d3d3"
 
@@ -39,7 +41,7 @@ class ActivityLogListWidget(CTkFrame) :
         
         if len(current_user.get_info().get("activity_log")) == 0 :
             self.no_activity_label = CTkLabel(self.activity_log_scrollable_frame, text = "No Activity", font = ("Arial", 40))
-            self.no_activity_label.pack(fill = "both", expand = True, pady = 200)
+            self.no_activity_label.pack(fill = "both", expand = True, pady = 125)
         else :
             self.matched_activity = []
             all_activity = self.current_user.get_info().get("activity_log")
@@ -62,7 +64,13 @@ class ActivityLogListWidget(CTkFrame) :
                             self.matched_activity.append(activity)
                     # Filter by Annnualy
                     elif activity.activity_type == "Annually" :
-                        pass
+                        current_date_obj = datetime.strptime(self.current_date, "%d/%m/%Y")
+                        activity_date_obj = datetime.strptime(activity.date_of_activity, "%d/%m/%Y")
+                        print(current_date_obj)
+                        print(activity_date_obj)
+                        if current_date_obj == activity_date_obj :
+                            self.matched_activity.append(activity)
+
 
                     
             # print(self.matched_activity)
@@ -141,9 +149,9 @@ class ActivityLogListWidget(CTkFrame) :
         
     def display_activity_info(self, activity_from_item = None, file_obj = None) :
         print("from log")
-        self.activity_info_widget = ActivityInfoWidget(self.activity_info_frame, current_user = self.current_user, activity = activity_from_item, file_obj = self.file_obj)
+        self.activity_info_widget = ActivityInfoWidget(self.activity_info_frame, parent_element = self, current_user = self.current_user, activity = activity_from_item, file_obj = self.file_obj)
         self.activity_info_widget.grid(row = 0, column = 0, sticky = "nsew")
-        # self.activity_info_widget.grid(row = 0, column = 0, sticky = "ew")
+            
     
     def previous_day(self) :
         self.parent_element.backward_current_date()

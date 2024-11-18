@@ -6,26 +6,25 @@ import tkinter as tk
 from pages.page import Page
 import services.auth_system as auth
 import time
-# from tkcalendar import *
-# import widgets.calendar as calendar
 
 alphabet_blue = "#abcdef"
 python_yellow = "#ffe873"
 python_blue = "#306998"
 python_blue_lighter = "#7bafe3"
+very_light_gray = "#d3d3d3"
 
 class HomePage(Page) :
     """This class generates the Home Page."""
-    def __init__(self, root, login_result) :
+    def __init__(self, root, embed_data) :
         self.root = root
-        self.current_user = login_result[0]
-        self.file_obj = login_result[1]
+        self.current_user = embed_data[0]
+        self.file_obj = embed_data[1]
         
         
         
         # Picture for buttons
-        self.settings_icon = CTkImage(light_image = Image.open("icons/settings.png"))
-        self.logout_icon = CTkImage(light_image = Image.open("icons/logout.png"))
+        self.settings_icon = CTkImage(light_image = Image.open("icons/settings.png"), size = (40, 40))
+        self.logout_icon = CTkImage(light_image = Image.open("icons/logout.png"), size = (40, 40))
         
         
            
@@ -34,7 +33,7 @@ class HomePage(Page) :
         # self.page_frame.rowconfigure((0,1), weight = 1)
         self.page_frame.rowconfigure(0, weight = 1)
         self.page_frame.rowconfigure(1, weight = 16)
-        self.page_frame.grid(row = 0, column = 0, sticky= "nsew")
+        self.page_frame.pack(fill = "both", expand = True)
         
         
         
@@ -43,16 +42,16 @@ class HomePage(Page) :
         self.nav_bar_frame.grid(row = 0, column = 0, sticky = "nsew")
         
         self.settings_button = CTkButton(self.nav_bar_frame, fg_color = alphabet_blue, hover_color = alphabet_blue,
-                                         text = "", image = self.settings_icon, width = 30, height = 30,
-                                         command = self.go_to_settings)
+                                         text = "", image = self.settings_icon, width = 40, height = 40,
+                                         command = lambda : self.go_to_settings(embed_data))
         self.settings_button.grid(row = 0, column = 0, sticky = "nsw")
         
         self.home_label = CTkLabel(self.nav_bar_frame, text = "HOME PAGE", font = ("Arial", 30))
         self.home_label.grid(row = 0, column = 1, sticky = "ns")
         
         self.logout_button = CTkButton(self.nav_bar_frame, fg_color = alphabet_blue, hover_color = alphabet_blue,
-                                       text = "", image = self.logout_icon, width = 30, height = 30,
-                                       command = lambda : self.logout(self.current_user))
+                                       text = "", image = self.logout_icon, width = 40, height = 40,
+                                       command = self.logout)
         self.logout_button.grid(row = 0, column = 2, sticky = "nse")
         
         self.padding_frame = CTkFrame(self.page_frame, fg_color = alphabet_blue, bg_color = alphabet_blue)
@@ -118,7 +117,7 @@ class HomePage(Page) :
                                            font = ("Arial", 40))
         self.activity_log_label.grid(row = 0, column = 0, sticky = "nsew")
         
-        self.display_activity_log()
+        self.display_activity_log(caller = "not none")
         
         
         
@@ -127,18 +126,24 @@ class HomePage(Page) :
         self.current_time_label.configure(text = current_time)
         self.current_time_label.after(1000, self.update_current_time)
         
-    def display_activity_log(self) :
-        from pages.home_page.widgets.activity_log_list_widget import ActivityLogListWidget
-        self.activity_log_list_widget = ActivityLogListWidget(self.activity_log_frame, self, self.current_user, self.current_date, self.current_day_of_week, self.file_obj)
-        self.activity_log_list_widget.grid(row = 1, column = 0, sticky = "nsew", padx = 20)
-        
+    def display_activity_log(self, caller = None) :
+        if caller == "not none" :            
+            from pages.home_page.widgets.activity_log_list_widget import ActivityLogListWidget
+            self.activity_log_list_widget = ActivityLogListWidget(self.activity_log_frame, self, self.current_user, self.current_date, self.current_day_of_week, self.file_obj)
+            self.activity_log_list_widget.grid(row = 1, column = 0, sticky = "nsew", padx = 20)
+        else :
+            self.activity_log_list_widget.destroy()
+            
+            from pages.home_page.widgets.activity_log_list_widget import ActivityLogListWidget
+            self.activity_log_list_widget = ActivityLogListWidget(self.activity_log_frame, self, self.current_user, self.current_date, self.current_day_of_week, self.file_obj)
+            self.activity_log_list_widget.grid(row = 1, column = 0, sticky = "nsew", padx = 20)
         
     def display_add_activity(self) :
         from pages.home_page.widgets.add_activity_widget import AddActivityWidget
         self.add_activity_widget = AddActivityWidget(self.activity_log_frame, self, self.current_user, self.current_date, self.file_obj)
         self.add_activity_widget.grid(row = 1, column = 0, sticky = "nsew", padx = 20)
         
-    def logout(self, current_user) :
+    def logout(self) :
         auth.logout(self.current_user, self.file_obj)
         self.go_to_login()
     
