@@ -1,9 +1,10 @@
-from abc import ABC, abstractmethod
+# from abc import ABC, abstractmethod
 from datetime import date
 from typing import Optional
 
 # We have Activity class to make it easier to edit the activity_dict
-class Activity(ABC) :
+# class Activity(ABC) :
+class Activity :
     def __init__(self, activity_dict) :
         self.id = activity_dict.get("id")
         self.name = activity_dict.get("name")
@@ -30,4 +31,4 @@ class NormalActivity(Activity) :
 class RepeatableActivity(Activity) :
     def __init__(self, activity_dict) :
         super().__init__(activity_dict)
-        self.activity_type = activity_dict.get("activity_type")  # "Daily", "Weekly", "Monthly", "Annually"
+        self.activity_type = activity_dict.get("activity_type")  # "Daily", "Weekly", "Annually"

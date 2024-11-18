@@ -74,6 +74,7 @@ class HomePage(Page) :
         self.calendar.pack(fill = tk.BOTH, expand = True)
         
         self.calendar.bind("<<CalendarSelected>>", self.date_detection)
+        self.calendar.bind("<<DateEntrySelected>>", self.date_detection)
 
         
         self.current_time_label = CTkLabel(self.padding_frame, text = time.strftime("%H:%M:%S"),
@@ -108,6 +109,8 @@ class HomePage(Page) :
         
         # The self.current_date is down here because we need to initialize the Calendar first.
         self.current_date = self.calendar.get_date()
+        current_date_obj = datetime.strptime(self.current_date, "%d/%m/%Y").date()
+        self.current_day_of_week = current_date_obj.strftime("%A")
         
 
 
@@ -126,7 +129,7 @@ class HomePage(Page) :
         
     def display_activity_log(self) :
         from pages.home_page.widgets.activity_log_list_widget import ActivityLogListWidget
-        self.activity_log_list_widget = ActivityLogListWidget(self.activity_log_frame, self, self.current_user, self.current_date)
+        self.activity_log_list_widget = ActivityLogListWidget(self.activity_log_frame, self, self.current_user, self.current_date, self.current_day_of_week, self.file_obj)
         self.activity_log_list_widget.grid(row = 1, column = 0, sticky = "nsew", padx = 20)
         
         
@@ -140,8 +143,12 @@ class HomePage(Page) :
         self.go_to_login()
     
     def date_detection(self, event) :
-        # self.calendar.get_date()
+        self.current_date = self.calendar.get_date()
+        current_date_obj = datetime.strptime(self.current_date, "%d/%m/%Y").date()
+        self.current_day_of_week = current_date_obj.strftime("%A")
         self.activity_log_label.configure(text = self.calendar.get_date())
+        self.activity_log_list_widget.destroy()
+        self.display_activity_log()
     
     def backward_current_date(self) :
         self.current_date_obj = datetime.strptime(self.current_date, "%d/%m/%Y").date()

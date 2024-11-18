@@ -35,5 +35,14 @@ def create_activity(current_user, name, description, date_of_activity, day_of_we
 def edit_activity() :
     pass
 
-def delete_activity() :
-    pass
+def delete_activity(current_user, activity, file_obj) :
+    current_user.delete_activity(activity)
+    
+    file_name = f"{current_user.get_info().get("username")}.pickle"
+    relative_path = "db/"
+    file_path = os.path.join(relative_path, file_name)
+    
+    pkl.close_file(file_obj)
+    pkl.write_file(file_path, current_user)
+    pkl.close_file(file_obj)
+    pkl.read_file(file_path)

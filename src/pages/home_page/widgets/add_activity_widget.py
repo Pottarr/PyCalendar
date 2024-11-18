@@ -43,13 +43,13 @@ class AddActivityWidget(CTkFrame) :
         
         
         
-        self.new_activity_name_label = CTkLabel(self.add_activity_frame, text = "Name")
+        self.new_activity_name_label = CTkLabel(self.add_activity_frame, text = "Name:")
         self.new_activity_name_label.grid(row = 0, column = 0, sticky = "nsw", padx = 5)
         
         self.new_activity_name_entry = CTkEntry(self.add_activity_frame, bg_color = very_light_gray)
         self.new_activity_name_entry.grid(row = 1, column = 0, sticky = "nsew", padx = 5)
         
-        self.new_activity_description_label = CTkLabel(self.add_activity_frame, text = "Description")
+        self.new_activity_description_label = CTkLabel(self.add_activity_frame, text = "Description:")
         self.new_activity_description_label.grid(row = 2, column = 0, sticky = "nsw", padx = 5)
         
         self.new_activity_description_textbox = CTkTextbox(self.add_activity_frame, bg_color = very_light_gray, border_color = "black")
@@ -60,7 +60,7 @@ class AddActivityWidget(CTkFrame) :
         self.new_activity_type_frame.grid_rowconfigure((0, 1), weight = 1)
         self.new_activity_type_frame.grid(row = 4, column = 0, columnspan = 3, sticky = "nsew", padx = 5, pady = 5)
         
-        self.new_activity_type_label = CTkLabel(self.new_activity_type_frame, text  = "Type")
+        self.new_activity_type_label = CTkLabel(self.new_activity_type_frame, text  = "Type:")
         self.new_activity_type_label.grid(row = 0, column = 0, sticky = "nsw")
         
         self.chosen_type = StringVar(value = "None")
@@ -71,8 +71,8 @@ class AddActivityWidget(CTkFrame) :
         self.daily_type_radio_button = CTkRadioButton(self.new_activity_type_frame, text = "Daily", command = self.pick_activity_type, variable = self.chosen_type, value = "Daily")
         self.daily_type_radio_button.grid(row = 1, column = 1, sticky = "nsew")
         
-        self.monthly_type_radio_button = CTkRadioButton(self.new_activity_type_frame, text = "Monthly", command = self.pick_activity_type, variable = self.chosen_type, value = "Monthly")
-        self.monthly_type_radio_button.grid(row = 1, column = 2, sticky = "nsew")
+        self.weekly_type_radio_button = CTkRadioButton(self.new_activity_type_frame, text = "Weekly", command = self.pick_activity_type, variable = self.chosen_type, value = "Weekly")
+        self.weekly_type_radio_button.grid(row = 1, column = 2, sticky = "nsew")
         
         self.annually_type_radio_button = CTkRadioButton(self.new_activity_type_frame, text = "Annually", command = self.pick_activity_type, variable = self.chosen_type, value = "Annually")
         self.annually_type_radio_button.grid(row = 1, column = 3, sticky = "nsew")
@@ -109,7 +109,7 @@ class AddActivityWidget(CTkFrame) :
                                              command = self.cancel)
         self.cancel_button.grid(row = 0, column = 1, sticky = "nsw", padx = 25)
         
-    def pick_activity_type(self,) :
+    def pick_activity_type(self) :
         return self.chosen_type.get()
         
     def save(self) :

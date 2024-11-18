@@ -9,13 +9,12 @@ class User :
         
     def add_activity(self, activity_obj) :
         self.__activity_log.append(activity_obj)
-        self.debug_print()
     
     # def edit_activity(self) :
     #     pass
     
-    # def delete_activity(self) :
-    #     pass
+    def delete_activity(self, activity) :
+        self.__activity_log.remove(activity)
     
     def change_username(self, new_username) :
         self.__username = new_username

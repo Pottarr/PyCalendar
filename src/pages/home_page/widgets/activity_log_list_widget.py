@@ -11,12 +11,14 @@ very_light_gray = "#d3d3d3"
 
 
 class ActivityLogListWidget(CTkFrame) :
-    def __init__(self, master = None, parent_element = None, current_user = None, current_date = None, **kwargs) :
+    def __init__(self, master = None, parent_element = None, current_user = None, current_date = None, current_day_of_week = None, file_obj = None, **kwargs) :
         super().__init__(master, **kwargs, fg_color = python_blue_lighter)
         print("ActivityLogListWidget was loaded")
         self.parent_element = parent_element
         self.current_user = current_user
         self.current_date = current_date
+        self.current_day_of_week = current_day_of_week
+        self.file_obj = file_obj
         self.grid_columnconfigure(0, weight = 1)
         self.grid_rowconfigure(0, weight = 9)
         self.grid_rowconfigure(1, weight = 1)
@@ -42,6 +44,7 @@ class ActivityLogListWidget(CTkFrame) :
             self.matched_activity = []
             all_activity = self.current_user.get_info().get("activity_log")
             for activity in all_activity :
+                # Filter by normal
                 if isinstance(activity, act.NormalActivity) :
                     
                     # print(f"activity date: {activity.date_of_activity}")
@@ -50,15 +53,22 @@ class ActivityLogListWidget(CTkFrame) :
                         self.matched_activity.append(activity)
                         # print(self.matched_activity)
                 elif isinstance(activity, act.RepeatableActivity) :
-                    pass
-                else :
-                    print("Error: Invalid type of Activity")
+                    # Filter by Daily
+                    if activity.activity_type == "Daily" :
+                        self.matched_activity.append(activity)
+                    # Filter by Weekly
+                    elif activity.activity_type == "Weekly" :
+                        if self.current_day_of_week == activity.day_of_week :
+                            self.matched_activity.append(activity)
+                    # Filter by Annnualy
+                    elif activity.activity_type == "Annually" :
+                        pass
 
                     
             # print(self.matched_activity)
             self.all_activity_frame = []
             for activity in self.matched_activity :
-                activity_frame = ActivityListItemWidget(self.activity_log_scrollable_frame, self, activity)
+                activity_frame = ActivityListItemWidget(self.activity_log_scrollable_frame, self, activity, self.file_obj)
                 activity_frame.grid_columnconfigure(0, weight = 1)
                 activity_frame.grid_rowconfigure(0, weight = 1)
                 # print(activity.name)
@@ -70,13 +80,37 @@ class ActivityLogListWidget(CTkFrame) :
             for activity_frame in self.all_activity_frame :
                 activity_frame.pack(fill = "x", pady = 5)
                 
+                
+                
+                
+                
+                
+                
+                
+                
+                
         self.activity_info_frame = CTkFrame(self.activity_multi_info_frame, fg_color = very_light_gray)
+        self.activity_info_frame.grid_columnconfigure(0, weight = 1)
+        self.activity_info_frame.grid_rowconfigure(0, weight = 1)
         # self.activity_info_frame.grid(row = 0, column = 1, sticky = "nsew", padx = 5)
         self.activity_info_frame.pack(fill = "both", expand = True, side = "right", padx = 5)
         
-        self.activity_info_widget = ActivityInfoWidget(self.activity_info_frame, activity = None)
-        self.activity_info_widget.grid(row = 0, column = 0, sticky = "nsew")
+        self.display_activity_info()
         
+        
+        
+
+        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
                         
         self.footer_button_frame = CTkFrame(self, fg_color = python_blue_lighter)
         self.footer_button_frame.grid_columnconfigure((0, 1, 2), weight = 1)
@@ -103,10 +137,14 @@ class ActivityLogListWidget(CTkFrame) :
         
         
         
-    def show_activity_info(self, activity) :
-        self.activity_info_widget = ActivityInfoWidget(self.activity_info_frame, self, activity)
-        self.activity_info_widget.grid(row = 0, column = 0, sticky = "nsew")
+
         
+    def display_activity_info(self, activity_from_item = None, file_obj = None) :
+        print("from log")
+        self.activity_info_widget = ActivityInfoWidget(self.activity_info_frame, current_user = self.current_user, activity = activity_from_item, file_obj = self.file_obj)
+        self.activity_info_widget.grid(row = 0, column = 0, sticky = "nsew")
+        # self.activity_info_widget.grid(row = 0, column = 0, sticky = "ew")
+    
     def previous_day(self) :
         self.parent_element.backward_current_date()
         
