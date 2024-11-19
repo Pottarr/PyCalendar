@@ -17,6 +17,7 @@ class SettingsPage(Page) :
         self.root = root
         self.current_user = embed_data[0]
         self.file_obj = embed_data[1]
+        self.current_user.debug_print()
         
         self.home_icon = CTkImage(light_image = Image.open("icons/home.png"), size = (40, 40))
         self.logout_icon = CTkImage(light_image = Image.open("icons/logout.png"), size = (40, 40))

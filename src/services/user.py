@@ -22,3 +22,9 @@ class User :
         
     def clear_history(self) :
         self.__activity_log.clear()
+        
+    def debug_print(self) :
+        print(f"===================== Debug =====================")
+        print(f"Username: {self.get_info().get("username")}")
+        print(f"Password: {self.get_info().get("password")}")
+        print(f"=================================================")

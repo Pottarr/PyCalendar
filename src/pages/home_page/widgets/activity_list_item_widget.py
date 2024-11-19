@@ -25,5 +25,4 @@ class ActivityListItemWidget(CTkFrame) :
         self.info_button.grid(row = 0, column = 1, sticky = "nse")
         
     def display_activity_info(self) :
-        print("from item")
         self.parent_element.display_activity_info(activity_from_item = self.activity, file_obj = self.file_obj)

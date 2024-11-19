@@ -107,7 +107,6 @@ class ActivityLogListWidget(CTkFrame) :
         self.next_day_button.grid(row = 0, column = 2, sticky = "nsw")
         
     def display_activity_info(self, activity_from_item = None, file_obj = None) :
-        print("from log")
         self.activity_info_widget = ActivityInfoWidget(self.activity_info_frame, parent_element = self,
                                                        current_user = self.current_user,
                                                        activity = activity_from_item, file_obj = self.file_obj)

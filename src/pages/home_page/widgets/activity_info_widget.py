@@ -26,8 +26,9 @@ class ActivityInfoWidget(CTkFrame) :
         self.display_activity_info()
             
     def display_activity_info(self) :
-        print("from info")
-        print("====")
+        if self.activity != None :
+            self.activity.debug_print()
+            
         children = self.winfo_children()
         for anything in children :
             anything.destroy()
