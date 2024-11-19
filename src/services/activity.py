@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from datetime import date
+from datetime import datetime
 from typing import Optional
 
 class Activity(ABC) :
@@ -40,8 +40,7 @@ class RepeatableActivity(Activity) :
         elif self.activity_type == "Weekly" :
             reccurence == f"Every {self.day_of_week}"
         elif self.activity_type == "Annually" :
-            activity_date_month = datetime.strptime(self.current_date, "%d/%m/%Y").strftime("%d/%m")
-            reccurence == f"Every {activity_date_month}"
+            reccurence = f"Every {datetime.strptime(self.date_of_activity, "%d/%m/%Y").strftime("%d/%m")}"
         print(f"===================== Debug =====================")
         print(f"Title: {self.name}")
         print(f"Type: {self.activity_type}")
