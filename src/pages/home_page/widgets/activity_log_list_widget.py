@@ -61,8 +61,6 @@ class ActivityLogListWidget(CTkFrame) :
                         current_date_obj_without_yr = datetime.strptime(self.current_date, "%d/%m/%Y").strftime("%d/%m")
                         activity_date_obj_without_yr = datetime.strptime(activity.date_of_activity, "%d/%m/%Y").strftime("%d/%m")
                         
-                        print(current_date_obj_without_yr)
-                        print(activity_date_obj_without_yr)
                         if current_date_obj_without_yr == activity_date_obj_without_yr :
                             self.matched_activity.append(activity)
                             
