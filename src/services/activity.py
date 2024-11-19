@@ -35,15 +35,15 @@ class RepeatableActivity(Activity) :
         
     def debug_print(self) :
         reccurence = ""
-        if self.activity_type == "Daily" :
-            reccurence = "Every day"
-        elif self.activity_type == "Weekly" :
-            reccurence == f"Every {self.day_of_week}"
-        elif self.activity_type == "Annually" :
-            reccurence = f"Every {datetime.strptime(self.date_of_activity, "%d/%m/%Y").strftime("%d/%m")}"
         print(f"===================== Debug =====================")
         print(f"Title: {self.name}")
         print(f"Type: {self.activity_type}")
-        print(f"Reccurence: {reccurence}")
+        if self.activity_type == "Daily" :
+            print("Reccurence: Every day")
+        elif self.activity_type == "Weekly" :
+            print("Reccurence: Every", self.day_of_week)
+
+        elif self.activity_type == "Annually" :
+            print(f"Every {datetime.strptime(self.date_of_activity, "%d/%m/%Y").strftime("%d/%m")}")
         print(f"Description: {self.description}")
         print(f"=================================================")
