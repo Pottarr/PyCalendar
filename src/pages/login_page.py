@@ -69,9 +69,7 @@ class LoginPage(Page) :
         
         can_login, login_result = auth.login(username_value, password_value)
         
-        if can_login == True :
-            login_result[0].debug_print()
-            
+        if can_login == True :            
             import pages.home_page.home_page as home_page
             self.login_error = ""
             self.go_to_home(embed_data = login_result)

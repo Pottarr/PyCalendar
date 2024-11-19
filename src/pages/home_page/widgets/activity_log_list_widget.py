@@ -58,11 +58,12 @@ class ActivityLogListWidget(CTkFrame) :
                             self.matched_activity.append(activity)
                     # Filter by Annnualy
                     elif activity.activity_type == "Annually" :
-                        current_date_obj = datetime.strptime(self.current_date, "%d/%m/%Y")
-                        activity_date_obj = datetime.strptime(activity.date_of_activity, "%d/%m/%Y")
-                        print(current_date_obj)
-                        print(activity_date_obj)
-                        if current_date_obj == activity_date_obj :
+                        current_date_obj_without_yr = datetime.strptime(self.current_date, "%d/%m/%Y").strftime("%d/%m")
+                        activity_date_obj_without_yr = datetime.strptime(activity.date_of_activity, "%d/%m/%Y").strftime("%d/%m")
+                        
+                        print(current_date_obj_without_yr)
+                        print(activity_date_obj_without_yr)
+                        if current_date_obj_without_yr == activity_date_obj_without_yr :
                             self.matched_activity.append(activity)
                             
             self.all_activity_frame = []
